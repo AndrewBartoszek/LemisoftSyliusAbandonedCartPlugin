@@ -1,0 +1,37 @@
+sylius_grid:
+    templates:
+        action:
+    grids:
+        lemisoft_sylius_abandoned_cart_admin:
+            extends: sylius_admin_order
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%sylius.model.order.class%"
+                    repository:
+                        method: createAbandonedCartListQueryBuilder
+                        arguments:
+                            - '%hours_to_abandoned_cart%'
+            fields:
+                customer:
+                    type: twig
+                    label: sylius.ui.customer
+                    sortable: customer.lastName
+                    options:
+                        template: "@LemisoftSyliusAbandonedCartPlugin/Admin/Grid/Field/customer.html.twig"
+            actions:
+                item:
+                    show:
+                        type: show
+                        options:
+                            link:
+                                route: lemisoft_sylius_abandoned_cart_show
+                                parameters:
+                                    id: resource.id
+                    delete:
+                        type: delete
+                        options:
+                            link:
+                                route: lemisoft_sylius_abandoned_cart_delete
+                                parameters:
+                                    id: resource.id
