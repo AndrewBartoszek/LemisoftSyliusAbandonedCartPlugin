@@ -82,11 +82,11 @@ Instrukcja instalacji dostępna jest pod adresem https://gitlab.lemisoft.pl/help
 
 1. Dodać package registry url w pliku composer.json
    ```bash
-    composer config repositories.gitlab.lemisoft.pl/105 '{"type": "composer", "url": "https://gitlab.lemisoft.pl/api/v4/group/105/-/packages/composer/packages.json"}
+    composer config repositories.gitlab.lemisoft.pl/552 '{"type": "composer", "url": "https://gitlab.lemisoft.pl/api/v4/group/552/-/packages/composer/packages.json"}
    ```
 2. Wygenerować plik auth.json:
    ```bash
-   composer config gitlab-token.gitlab.lemisoft.pl package_registry n52_REGt4a3cGfVZC_im
+   composer config gitlab-token.gitlab.lemisoft.pl package_registry TM5p6E7xhmjbYtMwLMde
    ```
 
 3. Dodać sekcje gitlab-domain w composer.json
