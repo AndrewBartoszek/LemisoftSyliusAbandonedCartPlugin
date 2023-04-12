@@ -80,20 +80,20 @@ Każda wtyczka powinna zostać opublikowana w package registry zgodnie z numerac
 
 Instrukcja instalacji dostępna jest pod adresem https://gitlab.lemisoft.pl/help/user/packages/composer_repository/index#install-a-composer-package
 
-1. Dodać package registry url w pliku composer.json
+1. Jeżeli w projekcie, gdzie chcemy użyć wtyczki, jest już osadzona własna wtyczka pochodząca z własnej dystrybucji package registry, to należy przejść do kroku 3.
+ Dodać package registry url w pliku composer.json
    ```bash
     composer config repositories.gitlab.lemisoft.pl/552 '{"type": "composer", "url": "https://gitlab.lemisoft.pl/api/v4/group/552/-/packages/composer/packages.json"}
    ```
-2. Wygenerować plik auth.json:
-   ```bash
-   composer config gitlab-token.gitlab.lemisoft.pl package_registry TM5p6E7xhmjbYtMwLMde
-   ```
 
-3. Dodać sekcje gitlab-domain w composer.json
+2. Dodać sekcje gitlab-domain w composer.json
    ```bash
    composer config gitlab-domains gitlab.lemisoft.pl
    ```
-4. Zainstalować pakiet
+3. Zainstalować pakiet
+    ```bash
+   composer require ...
+   ```
 
 ### Docker
 
