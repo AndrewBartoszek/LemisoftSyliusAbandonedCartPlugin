@@ -12,16 +12,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 return static function (ContainerConfigurator $containerConfigurator, ContainerBuilder $a) {
     $services = $containerConfigurator->services();
-    $services
-        ->set(
-            'lemisoft.sylius_abandoned_cart_plugin.service.abandoned_cart.service',
-            AbandonedCartService::class,
-        )
-        ->args([
-            service('sylius.repository.order'),
-            service('doctrine.orm.default_entity_manager'),
-            param('hours_to_remove_abandoned_cart'),
-        ]);
 
     $services
         ->set(
@@ -41,14 +31,4 @@ return static function (ContainerConfigurator $containerConfigurator, ContainerB
             MenuBuilderListener::class,
         )
         ->tag('kernel.event_listener', ['event' => 'sylius.menu.admin.main', 'method' => 'addAdminMenuItems']);
-
-    $services
-        ->set(
-            'lemisoft.sylius_abandoned_cart_plugin.command.abandoned_cart_remove_command',
-            AbandonedCartRemoveCommand::class,
-        )
-        ->args([
-            service('lemisoft.sylius_abandoned_cart_plugin.service.abandoned_cart.service'),
-        ])
-        ->tag('console.command');
 };
