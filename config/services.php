@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Lemisoft\SyliusAbandonedCartPlugin\Command\AbandonedCartRemoveCommand;
 use Lemisoft\SyliusAbandonedCartPlugin\EventListener\MenuBuilderListener;
 use Lemisoft\SyliusAbandonedCartPlugin\Menu\AbandonedCartMenuBuilder;
-use Lemisoft\SyliusAbandonedCartPlugin\Service\AbandonedCartService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 return static function (ContainerConfigurator $containerConfigurator, ContainerBuilder $a) {
