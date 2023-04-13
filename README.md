@@ -23,21 +23,9 @@ Dla php należy włączyć następujące rozszerzenia:
     HOURS_TO_ABANDONED_CART=24
     HOURS_TO_REMOVE_ABANDONED_CART=48
 ```
-- Dodać w pliku composer.json sklepu:
-```bash
-    "lemisoft-sylius-abandoned-cart-plugin" : {
-        "type": "vcs",
-        "url": "git@gitlab.lemisoft.pl:e-commerce/plugins/lemisoftsyliusabandonedcartplugin.git"
-    }
-```
 - Puścić komendę:
 ```bash
-composer require "lemisoft/sylius-abandoned-cart-plugin": 0.0.1
-```
-
-- W pliku config/bundles.php dodać: (powinno dodac sie automatycznie):
-```bash
-    Lemisoft\SyliusAbandonedCartPlugin\LemisoftSyliusAbandonedCartPlugin::class => ['all' => true],
+composer require "lemisoft/sylius-abandoned-cart-plugin"
 ```
 - W pliku config/services/_defaults.php dodać import:
 ```bash
@@ -58,11 +46,12 @@ sylius_order:
         order:
             classes:
                 model: Lemisoft\Domain\Entity\Order\Order
-                repository:  Lemisoft\Domain\Repository\OrderRepository #Przykladowy namespace do OrderRepository
+                repository: Lemisoft\Domain\Repository\OrderRepository #Przykladowy namespace do OrderRepository
 ```
 
 - W pliku z repozytorium dla encji Order użyć traita:
 ```bash
+    use Lemisoft\SyliusAbandonedCartPlugin\Repository\AbandonedCartRepositoryInterface;
     use Lemisoft\SyliusAbandonedCartPlugin\Repository\AbandonedCartRepositoryTrait;
     use  Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository as BaseOrderRepository;
 
@@ -71,7 +60,9 @@ sylius_order:
         use AbandonedCartRepositoryTrait;
     }
 ```
-8. Komenda usuwająca przedawnione koszyki. Standardowo usuwa 200 koszykow. Parametr limit określa ilość koszyków do usuniecia podczas uruchomienia:
+- Skopiować zawartość tłumaczeń z katalogu translations
+
+- Komenda usuwająca przedawnione koszyki. Standardowo usuwa 200 koszykow. Parametr limit określa ilość koszyków do usuniecia podczas uruchomienia:
 ```bash
 php bin/console lemisoft:sylius-abandoned-cart:remove --limit=300
 ```
