@@ -18,6 +18,9 @@ nd:
 rn:
 	$(eval EXEC_APP := $(RUN_APP))
 
+twig:
+	$(EXEC_APP) $(CONSOLE) lint:twig --show-deprecations templates/
+
 phpcs:
 	$(EXEC_APP) $(PHPCS) -p
 
@@ -40,7 +43,10 @@ behat:
 	APP_ENV=test $(EXEC_APP) $(BEHAT) --colors --strict --no-interaction -f progress
 
 phpunit:
-	$(EXEC_APP) $(PHPUNIT) --testdox --colors=never
+	$(EXEC_APP) $(PHPUNIT) --testdox --colors=never --log-junit tests/_output/coverage/log-junit.xml --coverage-cobertura tests/_output/coverage/cobertura.xml --coverage-text --coverage-html tests/_output/coverage
+
+create-node-symlink:
+	$(EXEC_APP) php bin/create_node_symlink
 
 backend-packages-install:
 	$(EXEC_APP) $(COMPOSER) install --no-interaction --no-scripts
@@ -53,10 +59,10 @@ backend-init:
 	$(EXEC_APP) $(CONSOLE) sylius:fixtures:load default --no-interaction
 
 frontend-init:
-	GULP_ENV=prod  $(EXEC_APP) yarn --cwd tests/Application build
+	GULP_ENV=prod $(EXEC_APP) yarn --cwd tests/Application build
 
-init: backend-packages-install backend-init frontend-packages-install frontend-init
+init: create-node-symlink backend-packages-install backend-init frontend-packages-install frontend-init
 
 tests: phpunit behat
 
-quality: phpcs phpstan phpmnd psalm ecs
+quality: phpcs phpstan phpmnd psalm ecs twig

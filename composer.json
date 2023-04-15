@@ -1,7 +1,7 @@
 {
     "name": "lemisoft/sylius-abandoned-cart-plugin",
     "type": "sylius-plugin",
-    "description": "Boilerplate plugin for Sylius.",
+    "description": "Plugin show list of abandoned cart and makes possible to remove them.",
     "keywords": [
         "sylius",
         "sylius-plugin"
@@ -65,7 +65,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Lemisoft\\Tests\\SyliusAbandonedCartPlugin\\": "tests/"
+            "Lemisoft\\Tests\\SyliusAbandonedCartPlugin\\": "tests/",
+            "Lemisoft\\Tests\\SyliusAbandonedCartPlugin\\Application\\": "tests/Application/src"
         },
         "classmap": [
             "tests/Application/Kernel.php"

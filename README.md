@@ -104,10 +104,8 @@ Do uruchomienia wtyczki potrzebujemy lokalnie zainstalowanych narzędzi:
 
 W projekcie zostały zdefiniowane następujące kontenery:
 
-* `php`
+* `app`
 * `mysql`
-* `ngnix`
-* `node`
 
 Aby uruchomić projekt, należy:
 
@@ -191,12 +189,4 @@ Plik konfiguracyjny: *[behat.yml.dist](behat.yml.dist)*
 
 ```bash
 make behat
-```
-
-### PhpSpec
-
-Plik konfiguracyjny: *[phpspec.yaml.dist](phpspec.yml.dist)*
-
-```bash
-make phpspec
 ```
