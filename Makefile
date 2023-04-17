@@ -45,11 +45,8 @@ behat:
 phpunit:
 	$(EXEC_APP) $(PHPUNIT) --testdox --colors=never --log-junit tests/_output/coverage/log-junit.xml --coverage-cobertura tests/_output/coverage/cobertura.xml --coverage-text --coverage-html tests/_output/coverage
 
-create-node-symlink:
-	$(EXEC_APP) php bin/create_node_symlink.php
-
 backend-packages-install:
-	$(EXEC_APP) $(COMPOSER) install --no-interaction --no-scripts
+	$(EXEC_APP) $(COMPOSER) install --no-interaction
 
 frontend-packages-install:
 	$(EXEC_APP) yarn install --cwd tests/Application --pure-lockfile
@@ -61,7 +58,7 @@ backend-init:
 frontend-init:
 	GULP_ENV=prod $(EXEC_APP) yarn --cwd tests/Application build
 
-init: backend-packages-install backend-init frontend-packages-install create-node-symlink frontend-init
+init: frontend-packages-install backend-packages-install backend-init frontend-init
 
 tests: phpunit behat
 
