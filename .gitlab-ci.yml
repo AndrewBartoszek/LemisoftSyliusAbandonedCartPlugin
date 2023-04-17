@@ -2,6 +2,7 @@ image: docker:20.10.24
 
 include:
     -   template: Security/Secret-Detection.gitlab-ci.yml
+    -   template: Security/SAST.gitlab-ci.yml
 
 variables:
     IMAGE_TAG: gitlab.lemisoft.pl:5050/e-commerce/docker-images/sylius-docker-standard:traditional
@@ -36,7 +37,7 @@ app-build:
     before_script:
         - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" --password-stdin
     script:
-        - docker compose run --rm --no-deps app composer install --no-interaction --no-scripts
+        - docker compose run --rm --no-deps app make nd backend-packages-install
     cache:
         -   <<: *vendor-cache
             policy: pull-push
@@ -78,6 +79,9 @@ twig:
         - make nd twig
 
 secret_detection:
+    stage: security
+
+sast:
     stage: security
 
 phpunit:
