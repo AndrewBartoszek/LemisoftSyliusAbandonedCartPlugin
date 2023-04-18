@@ -18,41 +18,40 @@ Dla php należy włączyć następujące rozszerzenia:
 6. Publikacja wtyczki oraz używanie semantic version
 
 ## Instalacja wtyczki
-1. Dodać w pliku composer.json sklepu:
-```bash
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@gitlab.lemisoft.pl:e-commerce/plugins/lemisoftsyliusabandonedcartplugin.git"
-        }
-    ],
-```
-2. Puścić komendę:
-```bash
-composer require "lemisoft/sylius-abandoned-cart-plugin": "dev-{nazwa-brancha}"
-```
-3. Do lokalnego .env-a dodać zmienne i ustawić wartości:
+- Do lokalnego .env-a dodać zmienne i ustawić wartości:
 ```bash
     HOURS_TO_ABANDONED_CART=24
     HOURS_TO_REMOVE_ABANDONED_CART=48
 ```
-4. W pliku config/bundles.php dodać:
+- Puścić komendę:
 ```bash
-    Lemisoft\SyliusAbandonedCartPlugin\LemisoftSyliusAbandonedCartPlugin::class => ['all' => true],
+composer require "lemisoft/sylius-abandoned-cart-plugin"
 ```
-5. W pliku config/services.yaml dodać import:
+- W pliku config/services/_defaults.php dodać import:
 ```bash
-imports:
-    - { resource: "@LemisoftSyliusAbandonedCartPlugin/src/Resources/config/app/config.yaml" }
+    $configurator->import(
+        '@LemisoftSyliusAbandonedCartPlugin/src/Resources/config/app/config.php',
+    );
 ```
-6. W pliku config/routes.yaml dodać import:
+- W pliku config/routes/sylius_admin.php dodać import:
 ```bash
-lemisoft_sylius_abandoned_cart_plugin_admin:
-    resource: "@LemisoftSyliusAbandonedCartPlugin/config/admin_routing.yml"
-    prefix: /admin
+    $routes
+        ->import('@LemisoftSyliusAbandonedCartPlugin/config/admin_routing.yml')
+        ->prefix('/%sylius_admin.path_name%');
 ```
-7. W pliku z repozytorium dla encji Order - zwykle plik src/Repository/OrderRepository.php użyć traita:
+- Jeżeli sklep nie definiuje własnego pliku repozytorium dla encji Order należy dodać plik i zarejestrować w pliku config/packages/_sylius.yaml
 ```bash
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: Lemisoft\Domain\Entity\Order\Order
+                repository: Lemisoft\Domain\Repository\OrderRepository #Przykladowy namespace do OrderRepository
+```
+
+- W pliku z repozytorium dla encji Order użyć traita:
+```bash
+    use Lemisoft\SyliusAbandonedCartPlugin\Repository\AbandonedCartRepositoryInterface;
     use Lemisoft\SyliusAbandonedCartPlugin\Repository\AbandonedCartRepositoryTrait;
     use  Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository as BaseOrderRepository;
 
@@ -61,7 +60,9 @@ lemisoft_sylius_abandoned_cart_plugin_admin:
         use AbandonedCartRepositoryTrait;
     }
 ```
-8. Komenda usuwająca przedawnione koszyki. Standardowo usuwa 200 koszykow. Parametr limit określa ilość koszyków do usuniecia podczas uruchomienia:
+- Skopiować zawartość tłumaczeń z katalogu translations
+
+- Komenda usuwająca przedawnione koszyki. Standardowo usuwa 200 koszykow. Parametr limit określa ilość koszyków do usuniecia podczas uruchomienia:
 ```bash
 php bin/console lemisoft:sylius-abandoned-cart:remove --limit=300
 ```
