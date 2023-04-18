@@ -33,9 +33,7 @@ class AbandonedCartMenuBuilder
 
         /** @var OrderInterface $order */
         $order = $options['order'];
-
         $stateMachine = $this->stateMachineFactory->get($order, OrderTransitions::GRAPH);
-
 
         $this->eventDispatcher->dispatch(
             new AbandonedCartMenuBuilderEvent($this->factory, $menu, $order, $stateMachine),
