@@ -21,4 +21,4 @@ sylius_order:
     resources:
         order:
             classes:
-                repository: Lemisoft\Tests\SyliusAbandonedCartPlugin\Application\src\Doctrine\ORM\OrderRepository
+                repository: Lemisoft\Tests\SyliusAbandonedCartPlugin\Application\Doctrine\ORM\OrderRepository

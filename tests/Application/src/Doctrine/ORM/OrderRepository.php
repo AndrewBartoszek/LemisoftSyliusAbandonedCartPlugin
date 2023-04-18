@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lemisoft\Tests\SyliusAbandonedCartPlugin\Application\src\Doctrine\ORM;
+namespace Lemisoft\Tests\SyliusAbandonedCartPlugin\Application\Doctrine\ORM;
 
 use Lemisoft\SyliusAbandonedCartPlugin\Repository\AbandonedCartRepositoryInterface;
 use Lemisoft\SyliusAbandonedCartPlugin\Repository\AbandonedCartRepositoryTrait;
