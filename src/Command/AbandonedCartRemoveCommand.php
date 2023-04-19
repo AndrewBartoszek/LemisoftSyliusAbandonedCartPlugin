@@ -37,13 +37,13 @@ final class AbandonedCartRemoveCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $limit = (int)$input->getOption('limit');
-
         $abandonedCarts = $this->abandonedCartService->getAbandonedCartsToRemove($limit);
 
         foreach ($abandonedCarts as $abandonedCart) {
             try {
                 $this->abandonedCartService->removeAbandonedCart($abandonedCart);
-            } catch (Exception) {
+            } catch (Exception $e) {
+                $this->abandonedCartService->loggError($abandonedCart, $e);
             }
         }
 

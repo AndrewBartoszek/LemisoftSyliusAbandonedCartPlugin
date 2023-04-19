@@ -19,38 +19,38 @@ Dla php należy włączyć następujące rozszerzenia:
 
 ## Instalacja wtyczki
 - Do lokalnego .env-a dodać zmienne i ustawić wartości:
-```bash
+    ```bash
     HOURS_TO_ABANDONED_CART=24
     HOURS_TO_REMOVE_ABANDONED_CART=48
-```
+    ```
 - Puścić komendę:
-```bash
-composer require "lemisoft/sylius-abandoned-cart-plugin"
-```
+    ```bash
+    composer require "lemisoft/sylius-abandoned-cart-plugin"
+    ```
 - W pliku config/services/_defaults.php dodać import:
-```bash
+    ```bash
     $configurator->import(
         '@LemisoftSyliusAbandonedCartPlugin/src/Resources/config/app/config.php',
     );
-```
+    ```
 - W pliku config/routes/sylius_admin.php dodać import:
-```bash
+    ```bash
     $routes
         ->import('@LemisoftSyliusAbandonedCartPlugin/config/admin_routing.yml')
         ->prefix('/%sylius_admin.path_name%');
-```
+    ```
 - Jeżeli sklep nie definiuje własnego pliku repozytorium dla encji Order należy dodać plik i zarejestrować w pliku config/packages/_sylius.yaml
-```bash
-sylius_order:
-    resources:
-        order:
-            classes:
-                model: Lemisoft\Domain\Entity\Order\Order
-                repository: Lemisoft\Domain\Repository\OrderRepository #Przykladowy namespace do OrderRepository
-```
+    ```bash
+    sylius_order:
+        resources:
+            order:
+                classes:
+                    model: Lemisoft\Domain\Entity\Order\Order
+                    repository: Lemisoft\Domain\Repository\OrderRepository #Przykladowy namespace do OrderRepository
+    ```
 
 - W pliku z repozytorium dla encji Order użyć traita:
-```bash
+    ```bash
     use Lemisoft\SyliusAbandonedCartPlugin\Repository\AbandonedCartRepositoryInterface;
     use Lemisoft\SyliusAbandonedCartPlugin\Repository\AbandonedCartRepositoryTrait;
     use  Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository as BaseOrderRepository;
@@ -59,9 +59,26 @@ sylius_order:
     {
         use AbandonedCartRepositoryTrait;
     }
-```
-- Skopiować zawartość tłumaczeń z katalogu translations
+    ```
+- Dodać konfiguracje loggera błędów w plikach konfiguracyjnych pluginu monolog
+    ```php
+    #config/packages/dev/monolog.php
+    #config/packages/prod/monolog.php
 
+    $config->channels(['abandoned_cart']);
+
+    $config
+        ->handler('abandoned_cart')
+        ->type('stream')
+        ->path('%kernel.logs_dir%/%kernel.environment%_abandoned_cart.log')
+        ->level('error')
+        ->channel('abandoned_cart');
+    ```
+- Wyczyścić cache aby pliki z tłumaczeniami zostały zaimportowane
+    ```bash
+    bin/console cache:clear
+    bin/console cache:warmup
+    ```
 - Komenda usuwająca przedawnione koszyki. Standardowo usuwa 200 koszykow. Parametr limit określa ilość koszyków do usuniecia podczas uruchomienia:
 ```bash
 php bin/console lemisoft:sylius-abandoned-cart:remove --limit=300
@@ -80,20 +97,20 @@ Każda wtyczka powinna zostać opublikowana w package registry zgodnie z numerac
 
 Instrukcja instalacji dostępna jest pod adresem https://gitlab.lemisoft.pl/help/user/packages/composer_repository/index#install-a-composer-package
 
-1. Dodać package registry url w pliku composer.json
+1. Jeżeli w projekcie, gdzie chcemy użyć wtyczki, jest już osadzona własna wtyczka pochodząca z własnej dystrybucji package registry, to należy przejść do kroku 3.
+ Dodać package registry url w pliku composer.json
    ```bash
-    composer config repositories.gitlab.lemisoft.pl/105 '{"type": "composer", "url": "https://gitlab.lemisoft.pl/api/v4/group/105/-/packages/composer/packages.json"}
-   ```
-2. Wygenerować plik auth.json:
-   ```bash
-   composer config gitlab-token.gitlab.lemisoft.pl package_registry n52_REGt4a3cGfVZC_im
+    composer config repositories.gitlab.lemisoft.pl/552 '{"type": "composer", "url": "https://gitlab.lemisoft.pl/api/v4/group/552/-/packages/composer/packages.json"}
    ```
 
-3. Dodać sekcje gitlab-domain w composer.json
+2. Dodać sekcje gitlab-domain w composer.json
    ```bash
    composer config gitlab-domains gitlab.lemisoft.pl
    ```
-4. Zainstalować pakiet
+3. Zainstalować pakiet
+    ```bash
+   composer require ...
+   ```
 
 ### Docker
 
@@ -104,10 +121,8 @@ Do uruchomienia wtyczki potrzebujemy lokalnie zainstalowanych narzędzi:
 
 W projekcie zostały zdefiniowane następujące kontenery:
 
-* `php`
+* `app`
 * `mysql`
-* `ngnix`
-* `node`
 
 Aby uruchomić projekt, należy:
 
@@ -191,12 +206,4 @@ Plik konfiguracyjny: *[behat.yml.dist](behat.yml.dist)*
 
 ```bash
 make behat
-```
-
-### PhpSpec
-
-Plik konfiguracyjny: *[phpspec.yaml.dist](phpspec.yml.dist)*
-
-```bash
-make phpspec
 ```

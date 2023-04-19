@@ -17,28 +17,24 @@ return static function (ContainerConfigurator $containerConfigurator) {
     $containerConfigurator->import(
         '@LemisoftSyliusAbandonedCartPlugin/src/Resources/config/sylius/sylius_grid.yaml',
     );
+
     $containerConfigurator->import(
         '@LemisoftSyliusAbandonedCartPlugin/src/Resources/config/sylius/events.yaml',
     );
 
     $services
-        ->set(
-            'lemisoft.sylius_abandoned_cart_plugin.service.abandoned_cart.service',
-            AbandonedCartService::class,
-        )
+        ->set(AbandonedCartService::class)
         ->args([
             service('sylius.repository.order'),
             service('doctrine.orm.default_entity_manager'),
+            service('monolog.logger.abandoned_cart'),
             param('hours_to_remove_abandoned_cart'),
         ]);
 
     $services
-        ->set(
-            'lemisoft.sylius_abandoned_cart_plugin.command.abandoned_cart_remove_command',
-            AbandonedCartRemoveCommand::class,
-        )
+        ->set(AbandonedCartRemoveCommand::class)
         ->args([
-            service('lemisoft.sylius_abandoned_cart_plugin.service.abandoned_cart.service'),
+            service(AbandonedCartService::class),
         ])
         ->tag('console.command');
 };
