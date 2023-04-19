@@ -36,5 +36,5 @@ return static function (ContainerConfigurator $containerConfigurator) {
         ->args([
             service(AbandonedCartService::class),
         ])
-        ->tag('console.command');
+        ->tag('console.command', ['command' => 'lemisoft:sylius-abandoned-cart:remove']);
 };

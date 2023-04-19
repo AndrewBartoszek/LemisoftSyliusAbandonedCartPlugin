@@ -6,13 +6,15 @@ namespace Lemisoft\SyliusAbandonedCartPlugin\Command;
 
 use Exception;
 use Lemisoft\SyliusAbandonedCartPlugin\Service\AbandonedCartService;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'lemisoft:sylius-abandoned-cart:remove')]
+/**
+ * Przykład użycia
+ * php bin/console lemisoft:sylius-abandoned-cart:remove --limit=300
+ */
 final class AbandonedCartRemoveCommand extends Command
 {
     private const DEFAULT_LIMIT = 100;
