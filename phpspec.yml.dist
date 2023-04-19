@@ -1,4 +1,0 @@
-suites:
-    main:
-        namespace: Lemisoft\SyliusAbandonedCartPlugin
-        psr4_prefix: Lemisoft\SyliusAbandonedCartPlugin

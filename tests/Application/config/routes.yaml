@@ -1,3 +1,3 @@
 lemisoft_sylius_abandoned_cart_plugin_admin:
-    resource: "@LemisoftSyliusAbandonedCartPlugin/config/admin_routing.yml"
+    resource: "@LemisoftSyliusAbandonedCartPlugin/config/admin_routing.php"
     prefix: /admin
