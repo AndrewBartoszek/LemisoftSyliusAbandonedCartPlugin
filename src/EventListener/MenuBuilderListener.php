@@ -8,7 +8,7 @@ use Lemisoft\SyliusAbandonedCartPlugin\Menu\Model\AdminMenuSectionType;
 use Lemisoft\SyliusAbandonedCartPlugin\Presentation\AbandonedCartPluginRouting;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
-class MenuBuilderListener
+final class MenuBuilderListener
 {
     public function addAdminMenuItems(MenuBuilderEvent $event): void
     {

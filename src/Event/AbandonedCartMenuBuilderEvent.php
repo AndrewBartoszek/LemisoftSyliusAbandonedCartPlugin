@@ -10,7 +10,7 @@ use SM\StateMachine\StateMachineInterface;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 use Sylius\Component\Core\Model\OrderInterface;
 
-class AbandonedCartMenuBuilderEvent extends MenuBuilderEvent
+final class AbandonedCartMenuBuilderEvent extends MenuBuilderEvent
 {
     public function __construct(
         FactoryInterface $factory,

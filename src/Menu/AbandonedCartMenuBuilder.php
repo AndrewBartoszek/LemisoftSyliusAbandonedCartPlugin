@@ -12,7 +12,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Order\OrderTransitions;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class AbandonedCartMenuBuilder
+final class AbandonedCartMenuBuilder
 {
     public const EVENT_NAME = 'sylius.admin.abandoned_cart.show';
 

@@ -10,7 +10,7 @@ use Lemisoft\SyliusAbandonedCartPlugin\Repository\AbandonedCartRepositoryInterfa
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
-class AbandonedCartService
+final class AbandonedCartService
 {
     public function __construct(
         private AbandonedCartRepositoryInterface $orderRepository,
